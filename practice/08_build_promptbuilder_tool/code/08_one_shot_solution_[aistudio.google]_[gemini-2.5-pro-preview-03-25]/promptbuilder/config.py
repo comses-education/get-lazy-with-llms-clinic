@@ -21,10 +21,10 @@ class Config:
     """Holds configuration settings."""
     default_meta_prompt_template_path: Path = DEFAULT_TEMPLATE_DIR / DEFAULT_TEMPLATE_NAME
     placeholder_format: str = "{{%s}}"
-    context_max_file_size_mb: float = 5.0
+    context_max_file_size_mb: float = 0.3
     context_supported_extensions: List[str] = field(default_factory=lambda: [".txt", ".md", ".py", ".json", ".yaml", ".xml", ".csv", ".html", ".css", ".js"])
     context_encoding: str = "utf-8"
-    copy_to_clipboard_default: bool = False
+    copy_to_clipboard_default: bool = True
     output_dir: Path = Path(".")
     interactive_multiline_end_marker: str = "END"
     # Add context_mode later if needed

@@ -1,9 +1,10 @@
+# promptbuilder/interactive.py
 import logging
 from pathlib import Path
 from typing import Dict, Any, Optional, List
 
 from .config import Config
-from .utils import get_multiline_input, validate_path_input
+from .utils import get_multiline_input, validate_path_input, read_text_or_path # Added read_text_or_path
 
 logger = logging.getLogger(__name__)
 
@@ -15,14 +16,15 @@ def run_interactive_mode(cli_args: Any, config: Config) -> Optional[Dict[str, An
     print("--- PromptBuilder Interactive Mode ---")
     print("Please provide the following details to build the meta-prompt.")
     print("(Leave optional fields blank and press Enter to skip)")
+    print(f"(For multi-line input, type '{config.interactive_multiline_end_marker}' on a new line to finish)")
 
     # 1. Task (Required)
     if cli_args.task:
-        print(f"Using Task from command line: {cli_args.task}")
+        print(f"\nUsing Task from command line: {cli_args.task}")
         collected_data['task'] = cli_args.task
     else:
         while not collected_data.get('task'):
-            task = input("Enter the ultimate task description (Required): ").strip()
+            task = input("\nEnter the ultimate task description (Required): ").strip()
             if task:
                 collected_data['task'] = task
             else:
@@ -30,7 +32,7 @@ def run_interactive_mode(cli_args: Any, config: Config) -> Optional[Dict[str, An
 
     # 2. Context (Optional, Multiple)
     if cli_args.context:
-        print(f"Using Context paths from command line: {', '.join(cli_args.context)}")
+        print(f"\nUsing Context paths from command line: {', '.join(cli_args.context)}")
         collected_data['context_paths'] = cli_args.context
     else:
         context_paths = []
@@ -42,18 +44,15 @@ def run_interactive_mode(cli_args: Any, config: Config) -> Optional[Dict[str, An
             path_str = input("Add context path (or 'done'): ").strip()
             if not path_str or path_str.lower() == 'done':
                 break
-            # Basic validation - check existence? utils.validate_path_input can do this
             validated_path = validate_path_input(path_str, check_exists=True)
             if validated_path:
-                 context_paths.append(str(validated_path)) # Store as string initially
-            # else: Error message printed by validate_path_input
+                 context_paths.append(str(validated_path)) # Store as string
         if context_paths:
              collected_data['context_paths'] = context_paths
 
     # 3. Meta Instructions (Optional)
     if cli_args.meta_instructions:
         print("\nUsing Meta Instructions from command line/file.")
-        # Reading happens later in cli.py based on collected path/text
         collected_data['meta_instructions_src'] = cli_args.meta_instructions
     else:
         meta_instr = get_multiline_input(
@@ -111,7 +110,55 @@ def run_interactive_mode(cli_args: Any, config: Config) -> Optional[Dict[str, An
          if output_instr:
             collected_data['output_instr_src'] = output_instr
 
-    # 8. Example Input (Optional)
+    # --- Prompt Characteristics ---
+    print("\n--- Final Prompt Characteristics ---")
+
+    # 8. Persona (Optional)
+    if cli_args.persona:
+        print("\nUsing Persona from command line/file.")
+        collected_data['persona_src'] = cli_args.persona
+    else:
+        persona_input = input("\n[Optional] Specify the Persona for the final LLM (e.g., 'Helpful Assistant'): ").strip()
+        if persona_input:
+             collected_data['persona_src'] = persona_input # Store text or path string
+
+    # 9. Constraints (Optional)
+    if cli_args.constraints:
+        print("\nUsing Constraints from command line/file.")
+        collected_data['constraints_src'] = cli_args.constraints
+    else:
+        constraints_input = get_multiline_input(
+             "\n[Optional] Enter general Constraints for the final LLM:",
+             config.interactive_multiline_end_marker
+         ).strip()
+        if constraints_input:
+             collected_data['constraints_src'] = constraints_input
+
+    # 10. Tone (Optional)
+    if cli_args.tone:
+        print("\nUsing Tone from command line/file.")
+        collected_data['tone_src'] = cli_args.tone
+    else:
+        tone_input = input("\n[Optional] Specify the desired Tone (e.g., 'Formal', 'Casual'): ").strip()
+        if tone_input:
+             collected_data['tone_src'] = tone_input
+
+    # 11. Negative Constraints (Optional)
+    if cli_args.negative_constraints:
+        print("\nUsing Negative Constraints from command line/file.")
+        collected_data['negative_constraints_src'] = cli_args.negative_constraints
+    else:
+        neg_constraints_input = get_multiline_input(
+             "\n[Optional] Enter things the final LLM should NOT do (Negative Constraints):",
+             config.interactive_multiline_end_marker
+         ).strip()
+        if neg_constraints_input:
+             collected_data['negative_constraints_src'] = neg_constraints_input
+
+
+    # --- Examples ---
+    print("\n--- Examples ---")
+    # 12. Example Input (Optional)
     if cli_args.example_input:
         print("\nUsing Example Input from command line/file.")
         collected_data['example_input_src'] = cli_args.example_input
@@ -123,7 +170,7 @@ def run_interactive_mode(cli_args: Any, config: Config) -> Optional[Dict[str, An
         if example_input:
              collected_data['example_input_src'] = example_input
 
-    # 9. Example Output (Optional)
+    # 13. Example Output (Optional)
     if cli_args.example_output:
         print("\nUsing Example Output from command line/file.")
         collected_data['example_output_src'] = cli_args.example_output
@@ -145,6 +192,11 @@ def run_interactive_mode(cli_args: Any, config: Config) -> Optional[Dict[str, An
     print(f"Input Instructions Source: {'Provided' if collected_data.get('input_instr_src') else 'None'}")
     print(f"Output Description Source: {'Provided' if collected_data.get('output_desc_src') else 'None'}")
     print(f"Output Instructions Source: {'Provided' if collected_data.get('output_instr_src') else 'None'}")
+    # Display summary for new fields
+    print(f"Persona Source: {'Provided' if collected_data.get('persona_src') else 'None'}")
+    print(f"Constraints Source: {'Provided' if collected_data.get('constraints_src') else 'None'}")
+    print(f"Tone Source: {'Provided' if collected_data.get('tone_src') else 'None'}")
+    print(f"Negative Constraints Source: {'Provided' if collected_data.get('negative_constraints_src') else 'None'}")
     print(f"Example Input Source: {'Provided' if collected_data.get('example_input_src') else 'None'}")
     print(f"Example Output Source: {'Provided' if collected_data.get('example_output_src') else 'None'}")
     print("-" * 30)
@@ -159,21 +211,25 @@ def run_interactive_mode(cli_args: Any, config: Config) -> Optional[Dict[str, An
     # Save to disk
     save_path_str = cli_args.save_on_disk or input("Save prompt to disk? (Enter path or leave blank for stdout): ").strip()
     if save_path_str:
-        # Allow relative paths, resolve later in cli.py
         final_actions['save_path'] = save_path_str
 
     # Copy to clipboard
-    copy_default = 'y' if config.copy_to_clipboard_default else 'n'
-    copy_prompt = f"Copy prompt to clipboard? [{copy_default.upper()}/{copy_default.lower()}]: "
-    copy_choice = cli_args.copy or input(copy_prompt).strip().lower()
-    if cli_args.copy: # If flag is set, force copy
-         final_actions['copy_flag'] = True
-    elif copy_choice in ('y', 'yes'):
-        final_actions['copy_flag'] = True
-    elif not copy_choice and config.copy_to_clipboard_default: # Default applies if blank
-         final_actions['copy_flag'] = True
-    else:
-         final_actions['copy_flag'] = False
+    copy_default_char = 'Y' if config.copy_to_clipboard_default else 'N'
+    copy_prompt = f"Copy prompt to clipboard? [{copy_default_char}/{copy_default_char.lower()}]: " # Fixed prompt display
+    copy_input_str = input(copy_prompt).strip().lower()
+
+    # Logic for determining copy action in interactive mode
+    should_copy = False
+    if cli_args.copy: # CLI flag overrides interactive prompt
+        should_copy = True
+        print("Copying to clipboard (specified via --copy flag).")
+    elif copy_input_str in ('y', 'yes'):
+        should_copy = True
+    elif copy_input_str == '' and config.copy_to_clipboard_default: # Enter defaults to config value
+        should_copy = True
+    # Otherwise (n, no, or other input when default is false), should_copy remains False
+
+    final_actions['copy_flag'] = should_copy
 
 
     # Attach final actions to the collected data

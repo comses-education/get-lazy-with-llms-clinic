@@ -12,16 +12,16 @@
 # Process Execution:
 
 ## **1. Define Task** (by hand) 🠚 `TASK`
-> [`TASK`](./prompting_artefacts/01_task.md)
+> [`TASK`](./prompting_log/01_task.md)
 
 ## **2. Define Requirements** (by hand ) 🠚 `REQUIREMENTS`
-> [`REQUIREMENTS`](./prompting_artefacts/02_requirements.md)
+> [`REQUIREMENTS`](./prompting_log/02_requirements.md)
 
 ## **3. Get Some Relevant Context** (ask PPLX) 🠚 `CONTEXT`
 ```yml
 "I want to <TASK> with folowing requirements: <REQUIREMENTS>. Give me best practices on how to perform tasks like <TASK>"
 ```
-> [`CONTEXT`](./prompting_artefacts/03_context.md) 
+> [`CONTEXT`](./prompting_log/03_context.md) 
 
 ## **4. Improve requirements** (ask PPLX, or Gemeni 2.5 Pro): 🠚 `GENERATED_REQUIREMENTS`
 ```yml
@@ -29,11 +29,11 @@
 ```
 | **Provider**    | **Model**                    | **File Link**                                                                                              | **Subjective Rating** |
 | --------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------- |
-| aistudio.google | gemini-2.5-pro-preview-03-25 | [`GENERATED_REQUIREMENTS`](./prompting_artefacts/04_generated_requirements_[aistudio.google]_[gemini-2.5-pro-preview-03-25].md) |    ★ ★ ★         |
-| cursor          | claude-3.7-sonnet            | [`GENERATED_REQUIREMENTS`](./prompting_artefacts/04_generated_requirements_[cursor]_[claude-3.7-sonnet].md)                     |       ★      |
-| cursor          | gemini-2.5-pro-preview-03-25 | [`GENERATED_REQUIREMENTS`](./prompting_artefacts/04_generated_requirements_[cursor]_[gemini-2.5-pro-preview-03-25].md)          |        ★ ★     |
-| perplexity-pro  | claude-3.7-sonnet-thinking   | [`GENERATED_REQUIREMENTS`](./prompting_artefacts/04_generated_requirements_[perplexity-pro]_[claude-3.7-sonnet-thinking].md)    |       ★      |
-| perplexity-pro  | research                     | [`GENERATED_REQUIREMENTS`](./prompting_artefacts/04_generated_requirements_[perplexity-pro]_[research].md)                      |       ★      |
+| aistudio.google | gemini-2.5-pro-preview-03-25 | [`GENERATED_REQUIREMENTS`](./prompting_log/04_generated_requirements_[aistudio.google]_[gemini-2.5-pro-preview-03-25].md) |    ★ ★ ★         |
+| cursor          | claude-3.7-sonnet            | [`GENERATED_REQUIREMENTS`](./prompting_log/04_generated_requirements_[cursor]_[claude-3.7-sonnet].md)                     |       ★      |
+| cursor          | gemini-2.5-pro-preview-03-25 | [`GENERATED_REQUIREMENTS`](./prompting_log/04_generated_requirements_[cursor]_[gemini-2.5-pro-preview-03-25].md)          |        ★ ★     |
+| perplexity-pro  | claude-3.7-sonnet-thinking   | [`GENERATED_REQUIREMENTS`](./prompting_log/04_generated_requirements_[perplexity-pro]_[claude-3.7-sonnet-thinking].md)    |       ★      |
+| perplexity-pro  | research                     | [`GENERATED_REQUIREMENTS`](./prompting_log/04_generated_requirements_[perplexity-pro]_[research].md)                      |       ★      |
 
 
 ## **5. Revise the generated requirements** (by hand) 🠚 `IMPROVED_REQUIREMENTS`
@@ -43,7 +43,7 @@
 ```yml
 "add interactive mode to functional requirements and write a detailed specification for it. Emphasize importance of modular and easily testable architecture."
 ```
-> [`IMPROVED_REQUIREMENTS`](./prompting_artefacts/05_improved_requirements.md)
+> [`IMPROVED_REQUIREMENTS`](./prompting_log/05_improved_requirements.md)
 
 ## **6. Supply general instructions** (by hand or ask PPLX): general instructions/guidelines/preferences on HOW to solve the `TASK`.
 Let's create some general implementation instructions for a `python cli tool`:
@@ -54,10 +54,10 @@ Give me some general best practices implementations for a python cli tool. Conti
     - use pytest to create unit tests for main functionality
     - use latest versions of packages, provide links to their documentation
 ```
-> [`INSTRUCTIONS`](./prompting_artefacts/06_instructions.md)
+> [`INSTRUCTIONS`](./prompting_log/06_instructions.md)
 
 ## **7. Create the performing prompt** (by hand) 🠚 `PERFORMING_PROMPT`
-**What do we actually want to "perform"?** Our [`TASK`](./prompting_artefacts/01_task.md), of course!
+**What do we actually want to "perform"?** Our [`TASK`](./prompting_log/01_task.md), of course!
 
 At this point we might ask the LLM to implement everything in one go:
 ```yml
@@ -71,13 +71,13 @@ Finally, let's build the `TASK_PERFORMING_PROMPT` with following structure:
     IMPROVED_REQUIREMENTS
     INSTRUCTIONS
 ```
-> [`PERFORMING_PROMPT`](./prompting_artefacts/07_performing_prompt.md)
+> [`PERFORMING_PROMPT`](./prompting_log/07_performing_prompt.md)
 
 ## **8. Use the `PERFORMING_PROMPT`** 🠚 `SOLUTION`
 
 Let's actually do the `TASK`!
 
-> [`SOLUTION`](./prompting_artefacts/05_one_shot_solution_[aistudio.google]_[gemini-2.5-pro-preview-03-25].md)
+> [`SOLUTION`](./prompting_log/05_one_shot_solution_[aistudio.google]_[gemini-2.5-pro-preview-03-25].md)
 
 ### Notes
 Surprisingly, Gemini 2.5 Pro generated a usable probmptbuilder tool in one go. I encountered minor python/poetry errors, which were easily solved with a couple of follow up questions to LLM.

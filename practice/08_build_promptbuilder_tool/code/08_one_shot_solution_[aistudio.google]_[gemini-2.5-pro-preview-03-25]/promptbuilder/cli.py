@@ -1,3 +1,4 @@
+# promptbuilder/cli.py
 import argparse
 import logging
 import sys
@@ -34,86 +35,114 @@ def create_parser() -> argparse.ArgumentParser:
     )
 
     # Core arguments
-    parser.add_argument(
+    core_group = parser.add_argument_group('Core arguments')
+    core_group.add_argument(
         "--task",
         type=str,
         help="**(Required unless interactive)** Concise description of the ultimate task for the final LLM."
     )
-    parser.add_argument(
+    core_group.add_argument(
         "--context",
         type=str,
         nargs='+',  # Allows one or more paths
         help="One or more file or directory paths for context. Dirs parsed recursively for supported types."
     )
-    parser.add_argument(
+    core_group.add_argument(
         "--meta-instructions",
         metavar="TEXT_OR_PATH",
         help="Instructions for the META_PROMPT generator (how to build the final prompt). Text or file path."
     )
 
     # Input/Output Specification
-    parser.add_argument(
+    io_group = parser.add_argument_group('Input/Output Specification')
+    io_group.add_argument(
         "--input",
         metavar="TEXT_OR_PATH",
         help="Description of the expected input for the final prompt. Text or file path."
     )
-    parser.add_argument(
+    io_group.add_argument(
         "--output",
         metavar="TEXT_OR_PATH",
         help="Description of the desired output from the final prompt. Text or file path."
     )
-    parser.add_argument(
+    io_group.add_argument(
         "--input-instructions",
         metavar="TEXT_OR_PATH",
         help="Instructions for the USER on how to provide input. Text or file path."
     )
-    parser.add_argument(
+    io_group.add_argument(
         "--output-instructions",
         metavar="TEXT_OR_PATH",
         help="Instructions for the LLM on how to format output. Text or file path."
     )
 
+    # Prompt Characteristics (NEW GROUP)
+    char_group = parser.add_argument_group('Prompt Characteristics (for the final prompt)')
+    char_group.add_argument(
+        "--persona",
+        metavar="TEXT_OR_PATH",
+        help="Specify the persona the final LLM should adopt (e.g., 'Helpful assistant', 'Expert Python programmer'). Text or file path."
+    )
+    char_group.add_argument(
+        "--constraints",
+        metavar="TEXT_OR_PATH",
+        help="General constraints the final LLM must adhere to (e.g., 'Answer in under 100 words', 'Use only information from the context'). Text or file path."
+    )
+    char_group.add_argument(
+        "--tone",
+        metavar="TEXT_OR_PATH", # Allow file path for more complex tone descriptions
+        help="Specify the desired tone for the final LLM's output (e.g., 'Formal', 'Casual and friendly', 'Technical'). Text or file path."
+    )
+    char_group.add_argument(
+        "--negative-constraints",
+        metavar="TEXT_OR_PATH",
+        help="Specify what the final LLM should NOT do (e.g., 'Do not mention pricing', 'Avoid using jargon'). Text or file path."
+    )
+
     # Examples
-    parser.add_argument(
+    example_group = parser.add_argument_group('Examples')
+    example_group.add_argument(
         "--example-input",
         metavar="TEXT_OR_PATH",
         help="An example of valid input for the final prompt. Text or file path."
     )
-    parser.add_argument(
+    example_group.add_argument(
         "--example-output",
         metavar="TEXT_OR_PATH",
         help="An example of desired output from the final prompt. Text or file path."
     )
 
     # Output and Configuration
-    parser.add_argument(
+    output_group = parser.add_argument_group('Output and Configuration')
+    output_group.add_argument(
         "--save-on-disk",
         metavar="PATH",
         help="Save the generated META_PROMPT to this file path instead of printing to stdout."
     )
-    parser.add_argument(
+    output_group.add_argument(
         "--copy",
         action="store_true",
         help="Copy the generated META_PROMPT to the system clipboard."
     )
-    parser.add_argument(
+    output_group.add_argument(
         "--config",
         metavar="PATH",
         help=f"Specify a configuration file path (default search: ./{cfg.DEFAULT_CONFIG_FILENAME}, {cfg.CONFIG_SEARCH_PATHS[1]})."
     )
-    parser.add_argument(
+    output_group.add_argument(
         "--template",
         metavar="PATH",
         help="Specify a custom META_PROMPT Jinja2 template file."
     )
 
     # Modes and Verbosity
-    parser.add_argument(
+    mode_group = parser.add_argument_group('Modes and Verbosity')
+    mode_group.add_argument(
         "-i", "--interactive",
         action="store_true",
         help="Activate Interactive Mode to gather inputs via prompts."
     )
-    parser.add_argument(
+    mode_group.add_argument(
         "-v", "--verbose",
         action="count",
         default=0,
@@ -138,8 +167,7 @@ def main():
     collected_data: Optional[Dict[str, Any]] = None
     final_actions = {
         'save_path': args.save_on_disk,
-         # Determine initial copy flag based on arg and config default
-        'copy_flag': args.copy or (config.copy_to_clipboard_default and not args.copy), # Explicit --copy overrides default=false
+        'copy_flag': args.copy or (config.copy_to_clipboard_default and not args.copy),
     }
 
     if args.interactive:
@@ -147,45 +175,53 @@ def main():
         interactive_results = interactive.run_interactive_mode(args, config)
         if interactive_results is None:
             sys.exit(0) # User cancelled
-        # Interactive mode returns all data *including* final actions
         collected_data = interactive_results
-        # Override CLI final actions with interactive choices
         final_actions['save_path'] = collected_data.pop('save_path', None)
         final_actions['copy_flag'] = collected_data.pop('copy_flag', False)
     else:
-        # CLI Mode - check required args
+        # CLI Mode
         if not args.task:
             parser.error("--task is required in non-interactive mode.")
-            sys.exit(1) # Should be unreachable due to parser.error
+            # sys.exit(1) # Unreachable due to parser.error
 
         logger.info("Running in CLI mode...")
-        # Gather data directly from args
         collected_data = {
             'task_description': args.task,
-            'context_paths': args.context, # Pass paths for context parsing
+            'context_paths': args.context,
             'meta_instructions_src': args.meta_instructions,
             'input_desc_src': args.input,
             'input_instr_src': args.input_instructions,
             'output_desc_src': args.output,
             'output_instr_src': args.output_instructions,
+            # Add sources for new args
+            'persona_src': args.persona,
+            'constraints_src': args.constraints,
+            'tone_src': args.tone,
+            'negative_constraints_src': args.negative_constraints,
             'example_input_src': args.example_input,
             'example_output_src': args.example_output,
         }
-        # Final actions already set from args/config
+        # final_actions already set from args/config
 
     # --- Common Processing (Both Modes) ---
 
     # Resolve text/path arguments
     template_data: Dict[str, Any] = {
-         'task_description': collected_data.get('task') or collected_data.get('task_description'), # Handle key difference
+         'task_description': collected_data.get('task') or collected_data.get('task_description'),
          'meta_instructions': utils.read_text_or_path(collected_data.get('meta_instructions_src'), config.context_encoding, 'meta-instructions'),
          'input_description': utils.read_text_or_path(collected_data.get('input_desc_src'), config.context_encoding, 'input description'),
          'input_instructions': utils.read_text_or_path(collected_data.get('input_instr_src'), config.context_encoding, 'input instructions'),
          'output_description': utils.read_text_or_path(collected_data.get('output_desc_src'), config.context_encoding, 'output description'),
          'output_instructions': utils.read_text_or_path(collected_data.get('output_instr_src'), config.context_encoding, 'output instructions'),
+         # Read new args
+         'persona': utils.read_text_or_path(collected_data.get('persona_src'), config.context_encoding, 'persona'),
+         'constraints': utils.read_text_or_path(collected_data.get('constraints_src'), config.context_encoding, 'constraints'),
+         'tone': utils.read_text_or_path(collected_data.get('tone_src'), config.context_encoding, 'tone'),
+         'negative_constraints': utils.read_text_or_path(collected_data.get('negative_constraints_src'), config.context_encoding, 'negative constraints'),
          'example_input': utils.read_text_or_path(collected_data.get('example_input_src'), config.context_encoding, 'example input'),
          'example_output': utils.read_text_or_path(collected_data.get('example_output_src'), config.context_encoding, 'example output'),
-         'verbose_level': args.verbose, # Pass verbosity to template if needed
+         'verbose_level': args.verbose,
+         'config': config, # Pass config object to template
     }
 
     # Process context
@@ -222,7 +258,6 @@ def main():
     save_target_str = final_actions.get('save_path')
     if save_target_str:
         save_path = Path(save_target_str)
-        # If path is relative, make it relative to the config's output_dir
         if not save_path.is_absolute():
              save_path = config.output_dir / save_path
         if utils.save_to_disk(meta_prompt, save_path.resolve()):
@@ -238,10 +273,13 @@ def main():
         else:
              logger.warning(f"Proceeding without copying to clipboard due to error.")
 
-    # 3. Print to Stdout (Default if no other output action succeeded or was requested)
+    # 3. Print to Stdout
     if not output_performed or (not save_target_str and not final_actions.get('copy_flag')):
-         if not output_performed: # Add a separator if other actions were attempted but failed
+         if output_performed: # Add a separator only if other actions *succeeded* but stdout is still needed
               print("\n--- Generated META_PROMPT ---")
+         elif save_target_str or final_actions.get('copy_flag'): # Add separator if actions were *attempted* but maybe failed
+              print("\n--- Generated META_PROMPT (stdout fallback) ---")
+
          print(meta_prompt)
 
     logger.info("PromptBuilder finished.")

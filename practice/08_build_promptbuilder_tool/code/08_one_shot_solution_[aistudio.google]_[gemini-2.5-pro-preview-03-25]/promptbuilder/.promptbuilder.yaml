@@ -2,7 +2,7 @@
 
 # default_meta_prompt_template_path: /path/to/your/custom/template.j2 # Optional override
 placeholder_format: "__%s__"
-context_max_file_size_mb: 10.0
+context_max_file_size_mb: 0.3
 context_supported_extensions:
   - .py
   - .md
