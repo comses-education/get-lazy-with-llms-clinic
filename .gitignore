@@ -1,0 +1,5 @@
+.direnv/
+.tool-versions
+.envrc
+.pytest_cache/
+__pycache__/

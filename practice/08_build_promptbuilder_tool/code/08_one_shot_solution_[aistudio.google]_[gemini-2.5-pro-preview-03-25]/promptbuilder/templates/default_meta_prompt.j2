@@ -1,0 +1,105 @@
+{# ============================================================ #}
+{#               META-PROMPT FOR LLM PROMPT GENERATION          #}
+{# ============================================================ #}
+
+**Objective:** Generate a high-quality TASK_PERFORMING_PROMPT based on the specifications below. This prompt will be used by a human user to instruct another LLM to perform a specific task.
+
+**Your Role:** You are an expert prompt engineer. Your goal is to create a clear, concise, effective, and robust TASK_PERFORMING_PROMPT.
+
+**Core Task for the Final LLM:**
+The ultimate task the final LLM needs to perform is:
+{{ task_description }}
+
+{# ================= META-INSTRUCTIONS (How to build the prompt) ================= #}
+{% if meta_instructions %}
+**Instructions for Generating the TASK_PERFORMING_PROMPT:**
+Follow these guidelines when constructing the final prompt:
+{{ meta_instructions }}
+{% endif %}
+
+{# ================= TASK_PERFORMING_PROMPT STRUCTURE & CONTENT ================= #}
+Construct the TASK_PERFORMING_PROMPT adhering to the following structure and including the specified elements:
+
+**1. Clear Directive:** Start with a clear and direct instruction summarizing the main goal for the final LLM.
+
+**2. Persona (Optional but Recommended):** If appropriate for the task, instruct the final LLM to adopt a specific persona (e.g., "Act as a helpful coding assistant," "You are a creative writer specializing in fantasy.").
+
+**3. Context (If Provided):**
+{% if context_items %}
+The final prompt should inform the LLM that the following context (files and their content) is available to assist with the task. The content is provided below, delineated by file path markers. Instruct the LLM to use this context when generating its response.
+
+**Provided Context Content:**
+{# Loop through each context item (path, content) #}
+{% for path, content in context_items %}
+
+--- START CONTEXT FILE: {{ path }} ---
+{% if content is not none %}
+{{ content }}
+{% else %}
+[File Content Could Not Be Read or File Was Empty]
+{% endif %}
+--- END CONTEXT FILE: {{ path }} ---
+
+{% endfor %}
+{# Add note about skipped files if any #}
+{% if context_files_skipped > 0 %}
+**(Note: {{ context_files_skipped }} context file(s) were skipped due to unsupported extensions, size limits exceeding {{ config.context_max_file_size_mb }} MB, or read errors. Their content is NOT included above.)**
+{% endif %}
+
+{% else %}
+{# Optional: Explicitly state if no context was provided #}
+{# No context files were provided for this task. #}
+{% endif %}
+
+
+{# ================= Input Specification (If Provided) ================= #}
+
+**4. Input Specification (If Provided):**
+{% if input_description %}
+The final prompt MUST instruct the LLM on the expected input format.
+Description of expected input:
+{{ input_description }}
+The final prompt MUST include a placeholder `{{ placeholder('INPUT') }}` where the user will insert their specific input for the task.
+{% endif %}
+{% if input_instructions %}
+The final prompt should include instructions for the *user* on how to provide their input. Include the following details:
+{{ input_instructions }}
+{% if input_description %}It should clearly relate to the `{{ placeholder('INPUT') }}` placeholder.{% endif %}
+{% endif %}
+
+**5. Output Specification (If Provided):**
+{% if output_description %}
+The final prompt MUST instruct the LLM on the desired output format or structure.
+Description of desired output:
+{{ output_description }}
+{% if not output_instructions %}The final prompt might need an `{{ placeholder('OUTPUT') }}` placeholder or a dedicated section describing the output format.{% endif %}
+{% endif %}
+{% if output_instructions %}
+The final prompt MUST include specific instructions for the *LLM* on how to format its output. Include the following formatting requirements:
+{{ output_instructions }}
+{% if output_description %}This should align with the description: {{ output_description }}.{% endif %}
+{% endif %}
+
+**6. Examples (If Provided):**
+{% if example_input or example_output %}
+Include the following examples in the final prompt to guide the LLM:
+{% if example_input %}
+**Example Input:**
+{{ example_input }}
+
+{% endif %}
+{% if example_output %}
+**Example Output:**
+{{ example_output }}
+
+{% endif %}
+{% endif %}
+
+**7. Constraints & Tone:** Ensure the final prompt clearly states any constraints, desired tone, or negative constraints (what the LLM *should not* do).
+
+**8. Final Check:** The generated TASK_PERFORMING_PROMPT should be self-contained, unambiguous, and directly usable by a human interacting with an LLM.
+
+
+{# ================= GENERATE THE TASK_PERFORMING_PROMPT BELOW ================= #}
+
+Now, based on all the above instructions, generate the TASK_PERFORMING_PROMPT.

@@ -1,0 +1,22 @@
+# PYTHON CLI TOOL IMPLEMENTATION INSTRUCTIONS
+
+- use uv as dependency manager https://docs.astral.sh/uv/concepts/tools/
+- use pytest to create unit tests for main functionality
+- use latest versions of packages, provide links to their documentation
+- structure your code as a Python package with an entry point (e.g., `__main__.py` or `console_scripts` in `pyproject.toml`)
+- separate concerns: isolate CLI parsing logic (`cli.py`) from business logic (`core.py`, `context.py`, etc.)
+- use `argparse` or `typer` for ergonomic CLI definition and built-in help messages  
+  - [argparse docs](https://docs.python.org/3/library/argparse.html)  
+  - [typer docs](https://typer.tiangolo.com/)
+- implement logging with the built-in `logging` module and support verbosity flags (e.g., `--verbose`, `-v`)
+- ensure graceful error handling and user-friendly error messages
+- validate all file paths, inputs, and expected formats early in execution
+- support configuration via `pyproject.toml`, `.env`, or `.yaml` file when appropriate
+- use `rich` or `textual` for improved CLI formatting and progress feedback if output needs polish
+  - [rich docs](https://rich.readthedocs.io/)
+- write integration tests (e.g., using `subprocess.run()` or `typer.testing`) to test full CLI flows
+- provide a `--dry-run` or `--preview` mode for non-destructive execution previews
+- include a `--version` flag and link it to a single source of truth for version (e.g., `__version__`)
+- ensure cross-platform support: avoid hardcoded paths, line endings, or platform-specific dependencies
+- include a well-written `README.md` with installation, usage examples, and command reference
+- document all public functions and classes with docstrings using [Google](https://google.github.io/styleguide/pyguide.html) or [NumPy](https://numpydoc.readthedocs.io/en/latest/format.html) style

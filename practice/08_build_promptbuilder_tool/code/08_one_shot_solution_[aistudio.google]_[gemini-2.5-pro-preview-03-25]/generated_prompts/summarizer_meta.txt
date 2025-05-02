@@ -1,0 +1,49 @@
+
+**Objective:** Generate a high-quality TASK_PERFORMING_PROMPT based on the specifications below. This prompt will be used by a human user to instruct another LLM to perform a specific task.
+
+**Your Role:** You are an expert prompt engineer. Your goal is to create a clear, concise, effective, and robust TASK_PERFORMING_PROMPT.
+
+**Core Task for the Final LLM:**
+The ultimate task the final LLM needs to perform is:
+Summarize the key points of a technical document
+
+**Instructions for Generating the TASK_PERFORMING_PROMPT:**
+Follow these guidelines when constructing the final prompt:
+Generate a prompt suitable for Claude 3 Sonnet. Keep it concise.
+
+Construct the TASK_PERFORMING_PROMPT adhering to the following structure and including the specified elements:
+
+**1. Clear Directive:** Start with a clear and direct instruction summarizing the main goal for the final LLM.
+
+**2. Persona (Optional but Recommended):** If appropriate for the task, instruct the final LLM to adopt a specific persona (e.g., "Act as a helpful coding assistant," "You are a creative writer specializing in fantasy.").
+
+**3. Context (If Provided):**
+The final prompt should inform the LLM that the following context is available to assist with the task. The user will provide this context alongside the prompt.
+Summarize or reference the context appropriately within the final prompt.
+
+**Provided Context Summary:**
+The following files/sources were provided as context:
+  - /home/asuworks/work/repos/github.com/comses-education/get-lazy-with-llms-clinic/my-prompts/6_build_a_python_cli_tool/code/05_one_shot_solution_[aistudio.google]_[gemini-2.5-pro-preview-03-25]/promptbuilder/test_docs/how to summarize technical docs.md (Size: 2024 chars)  - /home/asuworks/work/repos/github.com/comses-education/get-lazy-with-llms-clinic/my-prompts/6_build_a_python_cli_tool/code/05_one_shot_solution_[aistudio.google]_[gemini-2.5-pro-preview-03-25]/promptbuilder/test_docs/good_example_technical_doc_summarization.md (Size: 2612 chars)
+
+**4. Input Specification (If Provided):**
+The final prompt MUST instruct the LLM on the expected input format.
+Description of expected input:
+The full text of the technical document.
+The final prompt MUST include a placeholder `{{INPUT}}` where the user will insert their specific input for the task.
+
+**5. Output Specification (If Provided):**
+The final prompt MUST instruct the LLM on the desired output format or structure.
+Description of desired output:
+A bulleted list summary (max 5 points).
+The final prompt MUST include specific instructions for the *LLM* on how to format its output. Include the following formatting requirements:
+Format the output strictly as a markdown bulleted list.
+This should align with the description: A bulleted list summary (max 5 points)..
+**6. Examples (If Provided):**
+
+**7. Constraints & Tone:** Ensure the final prompt clearly states any constraints, desired tone, or negative constraints (what the LLM *should not* do).
+
+**8. Final Check:** The generated TASK_PERFORMING_PROMPT should be self-contained, unambiguous, and directly usable by a human interacting with an LLM.
+
+
+
+Now, based on all the above instructions, generate the TASK_PERFORMING_PROMPT.
