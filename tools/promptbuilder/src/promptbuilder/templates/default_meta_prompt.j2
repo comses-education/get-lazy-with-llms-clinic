@@ -1,0 +1,139 @@
+{# ============================================================ #}
+{#               META-PROMPT FOR LLM PROMPT GENERATION          #}
+{#               (Using Jinja Template Structure)               #}
+{# ============================================================ #}
+
+{# This top section provides meta-instructions for the system RENDERING this template. #}
+{# It does NOT become part of the final generated prompt string. #}
+**Objective:** Generate a high-quality TASK_PERFORMING_PROMPT based on the specifications below. This prompt will be used by a human user or another system to instruct an LLM to perform a specific task.
+
+**Your Role (As Renderer):** You are rendering this Jinja template to produce a ready-to-use Task-Performing Prompt for an LLM.
+
+**Core Task for the Final LLM (Defined by User):**
+The ultimate task the final LLM needs to perform is:
+{{ task_description }}
+
+{# Optional Meta-Instructions for the Renderer (How to process this template): #}
+{% if meta_instructions %}
+**Meta-Instructions for Template Rendering:**
+{{ meta_instructions }}
+{% endif %}
+
+{# ========================================================================== #}
+{# START OF THE ACTUAL TASK-PERFORMING PROMPT TO BE GENERATED               #}
+{# ========================================================================== #}
+{# This section defines the text that WILL BE GENERATED as the final prompt. #}
+
+{% if persona %}
+## Assigned Role
+You are to adopt the following persona for this task: {{ persona }}
+{% else %}
+## Assigned Role
+You are an expert AI assistant.
+{% endif %}
+
+## Core Task & Context
+Your primary task is: {{ task_description }}
+
+{% if context_items %}
+You MUST perform this task by drawing upon the principles, terminology, style, and information contained within the following provided context. Analyze and utilize this context carefully.
+
+**Provided Context:**
+{# Loop through each context item (path, content) #}
+{% for path, content in context_items %}
+--- START CONTEXT FILE: {{ path }} ---
+{% if content is not none %}
+{{ content }}
+{% else %}
+[File Content Could Not Be Read or File Was Empty]
+{% endif %}
+--- END CONTEXT FILE: {{ path }} ---
+{% endfor %}
+{# Add note about skipped files if any #}
+{% if context_files_skipped > 0 %}
+**(Note: {{ context_files_skipped }} context file(s) were skipped due to unsupported extensions, size limits exceeding {{ config.context_max_file_size_mb }} MB, or read errors. Their content is NOT included above.)**
+{% endif %}
+
+{% else %}
+Perform this task based on your general knowledge, adhering to the specified output requirements and constraints.
+{% endif %}
+
+## Input Specification
+{% if input_description %}
+The end-user will provide input matching the following description:
+{{ input_description }}
+
+The user's input will be provided below, marked by the `{{ placeholder('INPUT') }}` placeholder.
+{% if input_instructions %}
+
+Instructions for the User's Input:
+{{ input_instructions }}
+{% endif %}
+
+**User Input:**
+```
+{{ placeholder('INPUT') }}
+```
+{% else %}
+The end-user will provide their query or data directly. Process the input provided below:
+```
+{{ placeholder('INPUT') }}
+```
+{% endif %}
+
+## Output Specification
+{% if output_description or output_instructions %}
+You must generate an output that adheres *exactly* to the following specifications:
+
+{% if output_description %}
+**Output Description:**
+{{ output_description }}
+{% endif %}
+
+{% if output_instructions %}
+**Formatting and Structure Requirements:**
+{{ output_instructions }}
+{% endif %}
+{% else %}
+Generate a clear and concise response addressing the user's input and the core task.
+{% endif %}
+
+## Constraints & Guidelines
+Adhere strictly to the following constraints and guidelines:
+{% if constraints %}
+*   **General Constraints:** {{ constraints }}
+{% endif %}
+{% if tone %}
+*   **Tone:** Maintain a {{ tone }} tone.
+{% endif %}
+{% if negative_constraints %}
+*   **What NOT to Do (Negative Constraints):** {{ negative_constraints }}
+{% endif %}
+*   Focus solely on the provided input and context (if any) to generate the response. Do not add information not present in the source materials unless explicitly asked to.
+*   Be precise and follow all formatting instructions meticulously.
+
+## Examples (Optional)
+{% if example_input or example_output %}
+Refer to these examples for guidance on the expected input/output format and quality:
+
+{% if example_input %}
+**Good Example Input:**
+```
+{{ example_input }}
+```
+{% endif %}
+
+{% if example_output %}
+**Good Example Output:**
+```
+{{ example_output }}
+```
+{% endif %}
+{% endif %}
+
+{# ========================================================================== #}
+{# END OF THE ACTUAL TASK-PERFORMING PROMPT TO BE GENERATED                 #}
+{# ========================================================================== #}
+
+{# Final meta-instruction to the rendering system #}
+Now, generate the complete TASK_PERFORMING_PROMPT based on the structure and content defined above.

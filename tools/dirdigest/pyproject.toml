@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dirdigest"
+version = "0.1.0" # Or pull dynamically if preferred
+authors = [
+    { name = "Your Name", email = "your.email@example.com" },
+]
+description = "Generate Markdown or JSON digests of directory structures and file contents for LLM context."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0",
+    "rich>=13.0",
+    "pathspec>=0.11",
+    "pyperclip>=1.8",
+    "tomli>=2.0.1; python_version < '3.11'",
+]
+
+[project.scripts]
+# Point to the new combined function
+dirdigest = "dirdigest.cli:cli_entry"
+
+[tool.setuptools.packages.find]
+where = ["src"]

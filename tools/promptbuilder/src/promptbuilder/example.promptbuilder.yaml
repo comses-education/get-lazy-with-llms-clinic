@@ -1,0 +1,30 @@
+# Default path to the Jinja2 template for the meta-prompt
+# default_meta_prompt_template_path: /path/to/your/custom/template.j2
+
+# Format string for placeholders like {{INPUT}}, {{OUTPUT}} in the *final* prompt
+# The meta-prompt will instruct the LLM to use this format.
+placeholder_format: "__%s__" # Default is "{{%s}}"
+
+# Maximum size (in MB) for individual context files to be included. Set to 0 for no limit.
+context_max_file_size_mb: 10.0 # Default is 0.3
+
+# List of file extensions to include when parsing context directories recursively.
+# Ensure they start with a '.'
+context_supported_extensions:
+  - .py
+  - .md
+  - .txt
+  - .rst
+  - .json
+  - .yaml
+  # Default includes .txt, .md, .py, .json, .yaml, .xml, .csv, .html, .css, .js
+
+# Default text encoding for reading context files.
+context_encoding: utf-8 # Default is utf-8
+
+# If true, automatically copy generated prompts to clipboard unless --copy=False (hypothetical) is used.
+# Affects the default choice in interactive mode if --copy is not specified.
+copy_to_clipboard_default: true # Default is true
+
+# Default directory to resolve relative paths when using --save-on-disk without an absolute path.
+output_dir: ./generated_prompts # Default is "." (current directory)
