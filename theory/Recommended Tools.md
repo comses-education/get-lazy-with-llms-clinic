@@ -1,4 +1,4 @@
-# Tools 🤝
+# Recommended Tools 🤝
 
 ## The Basics
 1. ON Windows? Use [wsl2](https://learn.microsoft.com/en-us/windows/wsl/about) for development.

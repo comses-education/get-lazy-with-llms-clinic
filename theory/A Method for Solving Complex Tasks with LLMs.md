@@ -1,4 +1,4 @@
-# Best Practices for Solving Tasks with LLMs 🤝
+# A Method for Solving Complex Tasks with LLMs 🤝
 
 ## Epistemology of Tasks
 | **Task Type**                       | **Description**                                              | **Prompt Strategy**                                                                                               | **Example Task**                                      |
