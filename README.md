@@ -13,9 +13,9 @@ Throughout this repository we will use emojis in document titles:
    - [Best Practices for Solving Tasks with LLMs](./theory/Best%20Practices%20for%20Solving%20Tasks%20with%20LLMs.md)
    - [A list of recommended tools](./theory/Recommended%20Tools.md)
 2. `/practice`: Walkthroughs for solving tasks with LLMs:
-    - example 1: Explaining a Concept from Earth Surface Modelling
-    - example 2: generate a model skeleton
-    - example 3: containerization support for an existing or greenfield model
+    - [example 1: explain a concept from Earth Surface Modelling](./practice/01_explain_concept/README.md)
+    - example 2: generate a model skeleton that uses the [landlab framework](https://landlab.csdms.io/)
+    - example 3: containerize an existing Earth Surface Modeling Application (from example 2)
     - example 4: create a python CLI tool to convert contents of a directory into a single text file for LLMs
     - example 5: create a python CLI tool to help you build better prompts: promptbuilder tool
 
