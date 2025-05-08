@@ -126,6 +126,7 @@ Ask to provide trustworthy sources and order them by importance.
 | Break up jobs into smaller pieces just like you would for yourself or a team |
 | Define the scope for specific changes to avoid re-writes, potentially breaking unrelated things |
 | LLMs can natively handle markdown, use this for formatting, delimiters like horizontal rules (`---`) are particularly useful to break up prompts |
+| Don't shy away from mathematical expressions, TeX notation is usually able to be understood
 | Gravitate towards languages/tools that both you and the LLM know well (popular) |
 | Ask for explanations or documentation to make it easier to review outputs |
 | Validate everything, ideally as you receive it ("clean as you go"), automated tests are very helpful here |
