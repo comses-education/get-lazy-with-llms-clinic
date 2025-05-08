@@ -13,9 +13,9 @@ Throughout this repository we will use emojis in document titles:
    - [Use LLMs to Help You Write Better Prompts](./theory/Use%20LLMs%20to%20Help%20You%20Write%20a%20Better%20Prompt.md)
    - [Best Practices for Solving Tasks with LLMs](./theory/Best%20Practices%20for%20Solving%20Tasks%20with%20LLMs.md)
    - [A list of recommended tools](./theory/Recommended%20Tools.md)
-2. `/practice`: Walkthroughs for solving tasks with LLMs:
+2. `/practice`: walkthroughs for solving tasks with LLMs:
     - [example 1: explain a concept from Earth Surface Modelling](./practice/01_explain_concept/README.md)
-    - example 2: generate a model skeleton that uses the [landlab framework](https://landlab.csdms.io/)
+    - [example 2: generate a model skeleton](./practice/02_generate_landlab_model/README.md) that uses the [landlab framework](https://landlab.csdms.io/)
     - example 3: containerize an existing Earth Surface Modeling Application (from example 2)
     - example 4: create a python CLI tool to convert contents of a directory into a single text file for LLMs
     - example 5: create a python CLI tool to help you build better prompts: promptbuilder tool
@@ -29,12 +29,12 @@ Dissatisfied with LLM results? Cannot rely on LLM information? - **use better pr
 Never write the prompt yourself. The LLM has seen a HUGE amount of questions and answers from the internet. It knows how to formulate prompts. Give the LLM your TASK and ask to write a better prompt for you. Supply additional instructions or context if needed.
 
 **For coding tasks:**
-1. Ask the LLM to come up with an IMPLEMENTATION PLAN first.
-2. Ask LLM to PLAN a TESTING FRAMEWORK.
-3. Generate TESTS and check them MANUALLY. Ask to test the FUNCTIONALITY, NOT IMPLEMENTATION. THIS IS YOUR SOURCE OF TRUTH.
-4. Ask to split the PLAN into modular TODOs.
-5. Use TEST DRIVEN DEVELOPMENT when iterating on TODOs
-6. For DEBUGGING ask LLM: *"Add debug logs, so that I can give you the output for bug analysis. YOU ARE ALLOWED TO ADD DEBUG LOGS ONLY. DO NOT CHANGE ANY OTHER CODE."*
+1. Ask LLM to come up with an *implementation plan* first.
+2. Ask LLM to *plan* a *testing strategy*.
+3. Generate *tests* and check them manually. Ask to test the *functionality, not implementation*. This is your source of truth.
+4. Ask to split the *plan* into modular TODOs.
+5. Use [TDD (Test Driven Development)](https://martinfowler.com/bliki/TestDrivenDevelopment.html) when iterating on TODOs
+6. For *debugging* ask LLM: *"Add debug logs, so that I can give you the output for bug analysis. YOU ARE ALLOWED TO ADD DEBUG LOGS ONLY. DO NOT CHANGE ANY OTHER CODE."*
 7. Once a TODO is implemented and tests pass, commit.
 
 **For tasks with "unknown unknowns":** ask LLM to give you best practices on how to accomplish the task.
@@ -54,7 +54,7 @@ Ask to provide trustworthy sources and order them by importance.
 
 ### 15 minutes: read
 1. Use the prompt above and read the LLM summary **(5 min)**. 
-2. Choose an example that is relevant to your work and follow it's *Task Solving Process* **(10 min)**
+2. Choose an example from `/practice`that is relevant to your work and follow it's walktrough **(10 min)**
 
 ---
 
@@ -62,7 +62,7 @@ Ask to provide trustworthy sources and order them by importance.
 1. Clone this repo to your computer
 2. Continue with this README.md
 3. Choose an example that is relevant to you and follow the walkthrough
-4. Ask the LLM to make some small changes in the existing code. Copy/paste the existing code manually or using the [`dirdigest`](./tools/dirdigest/README.md) inside the tool's directory to combine all the code into a single text file.
+4. Ask the LLM to make some small changes in the existing code. Copy/paste the existing code manually or using [`gitingest`](https://github.com/cyclotruc/gitingest) to combine all the code into a single text file.
 5. Regenerate tool code by modifying existing requirement documents and generating code changes
 6. Generate new tools
 

@@ -1,0 +1,10 @@
+[project]
+name = "overland-flow-simulation"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "landlab>=2.9.2",
+    "matplotlib>=3.10.1",
+]

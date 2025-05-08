@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: landlab-overland-flow-demo
+Version: 0.1.0
+Summary: A simple Landlab overland flow simulation.
+Requires-Python: >=3.8
+Requires-Dist: landlab
+Requires-Dist: numpy
+Requires-Dist: matplotlib
