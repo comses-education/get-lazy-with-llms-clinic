@@ -65,13 +65,80 @@ Ask to provide trustworthy sources and order them by importance.
 5. Regenerate tool code by modifying existing requirement documents and generating code changes
 6. Generate new tools
 
-## Choose an LLM Provider
-Here is an [incomplete list of LLM providers](./theory/LLM%20Providers.md) for reference.
-But you can skip the list and use, what we are using right now:
-- for quick general questions: https://chat.openai.com/
-- for coding (generous free tier with a google account): https://aistudio.google.com/ 
-- for chatting with your documents (generous free tier with a google account): https://notebooklm.google/
-- for research (free tier available) https://www.perplexity.ai/
+---
 
-## Further reading
-[Curated LLM Resources](./theory/Curated%20LLM%20Resources.md)
+# Practical resources for getting the most use out of LLMs
+
+## LLM Terms
+
+| Concept | tl;dr |
+|---------|-------|
+| **Pre-training** | Scrape the internet and compress it into a lossy neural network |
+| **Fine-tuning** | Continue training on curated, labelled data so the model follows instructions |
+| **Tokens** | numeric encoding of text that the LLM uses for I/O, 1 token ~= 0.7 words |
+| **Context window** | How many tokens fit in one request (history *included*) |
+| **Few-shot prompting** | providing specific input/output examples to clarify your task |
+| **Chain of thought prompting** | asking the model to "show your work" in an effort to boost problem solving ability |
+| **Retrieval-Augmented Generation (RAG)** | a technique to automically fetch relevant external data to provide as context |
+| **Tools** | External APIs/functions the model can call (i.e. write to a file, search the web) |
+| **Agents** | A loop where the model plans, uses tools, observes results, and iterates toward a goal |
+| **Multimodal** | Refers to models that can work with data types beyond text, such as audio, images, and video |
+
+---
+
+## Chatbot services
+
+| Tool | What it’s good for | Pricing notes |
+|------|--------------------|---------------|
+| [ChatGPT (GPT-3.5)](https://chat.openai.com/) | Several models for quick questions or more advanced reasoning | Limited free tier |
+| [Google Gemini](https://aistudio.google.com) | Gemini 2.5 is the top dog in code-generation and other complex tasks at the time of writing | Generous free tier |
+| [Claude](https://claude.ai/) | Another option similarly advanced to ChatGPT or Gemini | $20 / mo (Pro) |
+| [Perplexity](https://www.perplexity.ai/) | Web search and research with fairly reliable citations | Limited free tier |
+| [Ollama](https://ollama.com/) | Run open‑source LLMs locally (Llama, DeepSeek, etc.) | Completely free! |
+---
+
+## IDE integrations / code assistants
+
+| Tool | What it does | Pricing notes |
+|------|--------------|---------------|
+| [GitHub Copilot](https://github.com/features/copilot) | Autocompletion, chat, and agent-mode in VScode | Limited free tier, **[Pro is free for students/teachers/OSS](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/getting-started-with-copilot-on-your-personal-account/getting-free-access-to-copilot-pro-as-a-student-teacher-or-maintainer)** |
+| [Cursor](https://www.cursor.com/)* | VScode fork with autocomplete, chat, and agent mode | Free trial only, **[Free year of Pro for students](https://www.cursor.com/students)** |
+| [Open Hands](https://www.cursor.com/)** | A FOSS alternative "coding agent" | Free but requires a local LLM or API access |
+
+*There are many similar paid "AI editors" such as [Windsurf](https://windsurf.com/editor), [Trae](https://www.trae.ai/), [Devin](https://devin.ai/), etc..
+
+**[Roo Code](https://github.com/RooVetGit/Roo-Code) is another popular open source agent
+
+---
+
+## Tips for good results 🚧
+
+
+|                                                                                                  |
+|--------------------------------------------------------------------------------------------------|
+| Remain the 'expert', think of the LLM/chatbot as an amazingly fast student intern |
+| The more detailed the prompt the better |
+| Include examples of how the model should respond (“few-shot prompting”) |
+| Include relevant context (like documentation) in a readable format within your prompts |
+| Break up jobs into smaller pieces just like you would for yourself or a team, models (especially reasoning models) can often help out with this step |
+| Keep sessions short and try to focus on particular tasks to avoid 'overwhelming' the model |
+| Take advantage of memory management tools like ChatGPT projects or even files in your workspace |
+| Break up jobs into smaller pieces just like you would for yourself or a team |
+| Define the scope for specific changes to avoid re-writes, potentially breaking unrelated things |
+| LLMs can natively handle markdown, use this for formatting, delimiters like horizontal rules (`---`) are particularly useful to break up prompts |
+| Gravitate towards languages/tools that both you and the LLM know well (popular) |
+| Ask for explanations or documentation to make it easier to review outputs |
+| Validate everything, ideally as you receive it ("clean as you go"), automated tests are very helpful here |
+| Use git and commit regularly to save "stable" states if you are using AI-generated code heavily |
+
+## Responsible use 🚧
+
+|                                                                                                  |
+|--------------------------------------------------------------------------------------------------|
+|  |
+
+---
+
+## Further Learning
+
+[Curated educational content on LLMs](./theory/Curated%20LLM%20Resources.md)
