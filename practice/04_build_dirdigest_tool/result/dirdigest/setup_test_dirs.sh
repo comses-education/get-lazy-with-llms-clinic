@@ -43,6 +43,7 @@ mkdir -p "$BASE/hidden_files_dir/.hidden_subdir"
 echo 'hidden_setting=true' > "$BASE/hidden_files_dir/.config_file"
 echo 'This is visible.' > "$BASE/hidden_files_dir/visible_file.txt"
 echo 'data' > "$BASE/hidden_files_dir/.hidden_subdir/another_hidden.dat"
+echo 'data' > "$BASE/hidden_files_dir/.hidden_subdir/.another_hidden.dat"
 echo 'Visible inside hidden.' > "$BASE/hidden_files_dir/.hidden_subdir/visible_in_hidden.txt"
 
 # symlink_dir
