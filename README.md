@@ -16,8 +16,7 @@ Throughout this repository we will use emojis in document titles:
     - [example 1: explain a concept from Earth Surface Modelling](./practice/01_explain_concept/README.md)
     - [example 2: generate a model skeleton](./practice/02_generate_landlab_model/README.md) that uses the [landlab framework](https://landlab.csdms.io/)
     - [example 3: containerize an existing Earth Surface Modeling Application (from example 2)](./practice/03_containerize_landlab_model/README.md)
-    - example 4: create a python CLI tool to convert contents of a directory into a single text file for LLMs
-    - example 5: create a python CLI tool to help you build better prompts: promptbuilder tool
+    - [example 4: create a python CLI tool to convert contents of a directory into a single text file for LLMs](./practice/04_build_dirdigest_tool/README.md)
 3. `tools/`: a couple of tools generated with LLMs as part of our [example walktrhoughs](./practice/README.md)
 
 ## Recommendations on how to use this repository
@@ -166,3 +165,4 @@ Let's call the prompt that generates a better prompt for your task - the `META_P
 ## Further Learning
 - [LiveBench](https://livebench.ai/) - a benchmark for LLMs *"designed with test set contamination and objective evaluation in mind"*
 - [Curated educational content on LLMs](./theory/Curated%20LLM%20Resources.md)
+

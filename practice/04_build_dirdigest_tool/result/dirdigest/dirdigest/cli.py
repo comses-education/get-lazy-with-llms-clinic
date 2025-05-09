@@ -9,7 +9,8 @@ from dirdigest import formatter as dirdigest_formatter
 from dirdigest.utils import logger as dirdigest_logger
 from dirdigest.utils import clipboard as dirdigest_clipboard
 from dirdigest.utils import config as dirdigest_config
-
+from dirdigest.utils.tokens import approximate_token_count
+from rich.markup import escape
 
 @click.command(
     name=TOOL_NAME,
@@ -185,7 +186,51 @@ def main_cli( # Parameters match the names of the click options
 
     final_format = final_settings.get('format', format)
     final_include = final_settings.get('include', include if include else [])
-    final_exclude = final_settings.get('exclude', exclude if exclude else [])
+    
+    # --- MODIFICATION START ---
+    raw_exclude_patterns = final_settings.get('exclude', exclude if exclude else [])
+    # Ensure raw_exclude_patterns is a list for extension
+    if not isinstance(raw_exclude_patterns, list):
+        if isinstance(raw_exclude_patterns, tuple):
+            raw_exclude_patterns = list(raw_exclude_patterns)
+        elif isinstance(raw_exclude_patterns, str): # Handle comma-separated string from config if not already parsed
+            raw_exclude_patterns = [p.strip() for p in raw_exclude_patterns.split(',') if p.strip()]
+        else:
+            raw_exclude_patterns = []
+
+
+    final_exclude = list(raw_exclude_patterns) # Make a mutable copy
+
+    if final_output_path:
+        # Resolve the output path relative to the base directory being processed
+        # so the exclusion pattern works correctly from the perspective of os.walk
+        try:
+            # Attempt to get output path relative to the final_directory.
+            # This is what the core processing will see.
+            output_file_relative_to_base = final_output_path.resolve().relative_to(final_directory.resolve())
+            final_exclude.append(str(output_file_relative_to_base))
+            log.info(f"CLI: Automatically excluding output file from processing: [log.path]{output_file_relative_to_base}[/log.path]")
+        except ValueError:
+            # This can happen if final_output_path is not inside final_directory (e.g., /tmp/out.md)
+            # In this case, the output file wouldn't be scanned by os.walk on final_directory anyway,
+            # unless final_directory is a parent of final_output_path, or they are unrelated.
+            # If unrelated, no need to add to exclude for the current scan.
+            # If final_directory is a parent, absolute path might be needed, but relative paths are typical for patterns.
+            # For now, log and proceed. This edge case might need more robust handling if output is outside target.
+            # A simpler robust approach: just exclude the basename if the output path is not in the target dir.
+            # However, a more direct approach is just to exclude its resolved absolute path if it can't be made relative.
+            # But pattern matching usually works on relative paths.
+            # The most common case is outputting within or next to the scanned directory.
+            log.debug(
+                f"CLI: Output file [log.path]{final_output_path.resolve()}[/log.path] is not inside the target directory "
+                f"[log.path]{final_directory.resolve()}[/log.path]. Not adding to relative excludes for scan. "
+                f"If it were inside, it would have been excluded."
+            )
+            # An alternative for this case IF it could still be scanned (e.g. target is '/'):
+            # final_exclude.append(str(final_output_path.resolve())) # Less ideal as patterns are relative
+
+    # --- MODIFICATION END ---
+
     final_max_size = final_settings.get('max_size', max_size)
     final_max_depth = final_settings.get('max_depth', max_depth)
     final_no_default_ignore = final_settings.get('no_default_ignore', no_default_ignore)
@@ -245,26 +290,37 @@ def main_cli( # Parameters match the names of the click options
 
     try:
         generated_digest = selected_formatter.format(root_node)
-        
-        if final_output_path: 
+
+        if final_output_path:
             with open(final_output_path, 'w', encoding='utf-8') as f_out:
                 f_out.write(generated_digest)
             log.info(f"CLI: Digest successfully written to [log.path]{final_output_path}[/log.path]")
-        else: 
-            dirdigest_logger.stdout_console.print(generated_digest, end="")
+        else:
+            dirdigest_logger.stdout_console.print(generated_digest, end="", markup=False)
             if not generated_digest.endswith('\n'):
                 dirdigest_logger.stdout_console.print()
-        
-        final_output_str = generated_digest 
+
+        final_output_str = generated_digest
         output_generation_succeeded = True
 
     except Exception as e:
-        # ADD THIS LINE FOR SUPER EXPLICIT DEBUGGING:
-        dirdigest_logger.stderr_console.print(f"[bold red reverse]DEBUG_EXCEPTION_CLIPBOARD: Exception caught in output block: {type(e).__name__} - {e}[/]")
-        
-        log.error(f"CLI: Error during output formatting or writing: {e}", exc_info=True)
-        final_output_str = f"Error generating output: {e}" 
-        # output_generation_succeeded remains False (its initial value)
+        # Escape the exception details ONCE
+        exc_type_str = escape(type(e).__name__)
+        exc_msg_str = escape(str(e)) # Convert e to string and escape it
+
+        # Use the escaped strings in the explicit debug print statement (if you still want it)
+        dirdigest_logger.stderr_console.print(f"[bold red reverse]DEBUG_EXCEPTION_CLIPBOARD: Exception caught in output block: {exc_type_str} - {exc_msg_str}[/]")
+
+        # Use the escaped strings in the log message as well
+        # The exc_info=True will still attach the full traceback correctly formatted by RichHandler
+        log.error(
+            f"CLI: Error during output formatting or writing. Type: {exc_type_str}, Message: {exc_msg_str}",
+            exc_info=True  # Let logging handle the traceback nicely
+        )
+        # Store the original exception if needed elsewhere, but don't rely on its string representation
+        # for Rich output without escaping.
+        final_output_str = f"Error generating output: {e}"
+        output_generation_succeeded = False
 
     # --- Clipboard ---
     if final_clipboard:
@@ -284,10 +340,16 @@ def main_cli( # Parameters match the names of the click options
     exc_count = metadata_for_output.get("excluded_files_count", 0)
     total_size = metadata_for_output.get("total_content_size_kb", 0.0)
 
+    # --- Calculate approximate token count for the generated digest ---
+    approx_tokens = 0
+    if output_generation_succeeded and final_output_str:
+        approx_tokens = approximate_token_count(final_output_str)
+
     log.info("-" * 30 + " SUMMARY " + "-" * 30)
     log.info(f"[log.summary_key]Total files included:[/log.summary_key] [log.summary_value_inc]{inc_count}[/log.summary_value_inc]")
     log.info(f"[log.summary_key]Total items excluded (files/dirs):[/log.summary_key] [log.summary_value_exc]{exc_count}[/log.summary_value_exc]")
     log.info(f"[log.summary_key]Total content size:[/log.summary_key] [log.summary_value_neutral]{total_size:.2f} KB[/log.summary_value_neutral]")
+    log.info(f"[log.summary_key]Approx. Token Count:[/log.summary_key] [log.summary_value_neutral]{approx_tokens:,}[/log.summary_value_neutral]")
     log.info(f"[log.summary_key]Execution time:[/log.summary_key] [log.summary_value_neutral]{execution_time:.2f} seconds[/log.summary_value_neutral]")
     log.info("-" * (60 + len(" SUMMARY ")))
     
@@ -297,19 +359,27 @@ def main_cli( # Parameters match the names of the click options
             if handler.level <= logging.DEBUG:
                 will_log_debug_tree = True
                 break
-    
+
     if will_log_debug_tree:
-        import json as json_debugger 
+        import json as json_debugger
         def json_default_serializer(obj):
             if isinstance(obj, pathlib.Path): return str(obj)
             return f"<not serializable: {type(obj).__name__}>"
-        log.debug("CLI: --- Generated Data Tree (Debug from CLI) ---")
+
+        log.debug("CLI: --- Generated Data Tree (Debug from CLI) ---") # This simple message is fine
         try:
             json_tree_str = json_debugger.dumps(root_node, indent=2, default=json_default_serializer)
-            log.debug(json_tree_str)
+
+            # FIX: Pre-escape the JSON string before logging it.
+            # We still pass extra={"markup": False} as a good measure,
+            # but pre-escaping makes it robust even if markup were True.
+            escaped_json_string = escape(json_tree_str)
+            log.debug(escaped_json_string, extra={"markup": False})
+
         except TypeError as e:
-            log.debug(f"CLI: Error serializing data tree to JSON for debug: {e}")
-        log.debug("CLI: --- End Generated Data Tree ---")
+            # Also escape the exception message if logging it this way
+            log.debug(f"CLI: Error serializing data tree to JSON for debug: {escape(str(e))}")
+        log.debug("CLI: --- End Generated Data Tree ---") # This simple message is fine
 
 if __name__ == '__main__':
     main_cli()
