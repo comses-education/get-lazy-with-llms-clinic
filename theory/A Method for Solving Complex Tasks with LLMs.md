@@ -13,7 +13,7 @@
 
 ## Axiom: To solve a complex task, we need (at least) a complex prompt.
 
-While it might be enough to type a  few words into ChatGPT to solve a simple task, it is very benefitial to create complex structured prompts to solve more complicated tasks.
+While it might be enough to type a  few words into ChatGPT to solve a simple task, it is very beneficial to create complex structured prompts to solve more complicated tasks.
 
 See [Examples of Better Prompts](./Examples%20of%20Better%20Prompts.md) for examples of simple vs complex prompts.
 

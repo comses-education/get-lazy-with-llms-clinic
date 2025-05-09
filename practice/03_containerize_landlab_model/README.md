@@ -7,9 +7,9 @@ In the previous example [Generate Landlab Overland Flow Model](./../02_generate_
     CONTEXT: <INSERT ALL CONTEXT DOCS HERE>
 ```
 
-Now let's ask to containarize it.
+Now let's ask to containerize it.
 
-## Containarizing an existing repository (the lazy way)
+## Containerizing an existing repository (the lazy way)
 If you are familiar with docker, please, skip this section (and forget that it's even here), otherwise continue reading:
 
 1. Create a digest `<APPLICATION_DIGEST>` of the entire repository.
@@ -48,7 +48,7 @@ Next, we'll follow the dockerization guide:
         Output plots will be saved to ./output_plots
         mkdir -p ./output_plots # Ensure host output directory exists
         docker compose up --remove-orphans
-        WARN[0000] /home/asuworks/work/repos/github.com/comses-education/get-lazy-with-llms-clinic/practice/03_containarize_landlab_model/result/dockerized-landlab-model/landlab-overland-flow-demo/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+        WARN[0000] /home/asuworks/work/repos/github.com/comses-education/get-lazy-with-llms-clinic/practice/03_containerize_landlab_model/result/dockerized-landlab-model/landlab-overland-flow-demo/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
         [+] Running 2/2
         ✔ Network landlab-overland-flow-demo_default  Created                                                                                                                                                                                    0.4s 
         ✔ Container landlab_simulation_app            Created                                                                                                                                                                                    0.2s 
@@ -79,7 +79,7 @@ After following suggested changes, `make build` fails even more miserably.
 
 ```
 ❯ docker compose build --no-cache
-WARN[0000] /home/asuworks/work/repos/github.com/comses-education/get-lazy-with-llms-clinic/practice/03_containarize_landlab_model/result/dockerized-landlab-model/landlab-overland-flow-demo/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+WARN[0000] /home/asuworks/work/repos/github.com/comses-education/get-lazy-with-llms-clinic/practice/03_containerize_landlab_model/result/dockerized-landlab-model/landlab-overland-flow-demo/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
 Compose can now delegate builds to bake for better performance.
  To do so, set COMPOSE_BAKE=true.
 [+] Building 76.8s (9/11)                                                                                                                                                                                                       docker:default
