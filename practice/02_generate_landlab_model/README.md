@@ -1,4 +1,4 @@
-# Process for "Generate Landlab Overland Flow Model" 🤝
+# Generate Landlab Overland Flow Model 🤝
 Perplexity generates a simple working landlab overflow model in one go with following prompt chain:
 ```
     what would be the most relevant context documents. urls, etc to solve this task:
@@ -15,9 +15,13 @@ Perplexity generates a simple working landlab overflow model in one go with foll
 ```
     create a README how to use this script with uv
 ```
-Here is the whole conversation with perplexity: https://www.perplexity.ai/search/what-would-be-the-most-relevan-Q0gqNooZQ2agdE6wsyb1Bg
+- Here is the entire chain conversation with `perplexity`: https://www.perplexity.ai/search/what-would-be-the-most-relevan-Q0gqNooZQ2agdE6wsyb1Bg that generated:
+    - [main.py](./result/pplx-one-shot/landlab-simulation/main.py)
+    - [README.md](./result/pplx-one-shot/landlab-simulation/README.md)
 
-Here is one-shot (with one self correction) solution without any context from `gemini 2.5 pro`: [Overland Flow Simulation](./result/gemini-one-shot/overland-flow-simulation/README.md)
+- Here is one-shot (with one self correction) solution without any context from `gemini 2.5 pro`: 
+    - [overland_flow_simulation.py](./result/gemini-one-shot/overland-flow-simulation/overland_flow_simulation.py)
+    - [README.md](./result/gemini-one-shot/overland-flow-simulation/README.md)
 
 **But the purpose of this example task is to learn how to digest different document types: PDF, URL, large Github repository into a Markdown file to be used as context for LLMs.**
 
@@ -335,6 +339,7 @@ Prepare the context docs:
 
 ```
     Generate a Python script that creates a simple overland flow simulation using Landlab's OverlandFlow component.
+    Create a detailed README how to use this script with uv.
     CONTEXT: <INSERT ALL CONTEXT DOCS HERE>
 ```
 

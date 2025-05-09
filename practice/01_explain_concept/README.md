@@ -1,4 +1,4 @@
-# Process for "Explain Earth Surface Modeling Concept for a 5-Year-Old" 🤝
+# Explain Earth Surface Modeling Concept for a 5-Year-Old 🤝
 
     "Explain the concept of "landscape evolution modeling" (LEM) in earth surface science, 
     including its principles, applications, and how it represents terrain surfaces for a 5-Year-Old."

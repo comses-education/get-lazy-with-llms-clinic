@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: landlab-overland-flow-demo:latest
+    container_name: landlab_simulation_app
+    # Mount the host's ./output_plots directory to /app/output_plots in the container
+    # This persists the generated plots on your host machine.
+    volumes:
+      - ./output_plots:/app/output_plots
+    # If you want to modify the script and re-run without rebuilding (for development):
+    # volumes:
+    #   - ./output_plots:/app/output_plots
+    #   - ./overland_flow_simulation.py:/app/overland_flow_simulation.py
+    #   - ./pyproject.toml:/app/pyproject.toml # If dependencies change, rebuild is still needed

@@ -1,0 +1,30 @@
+# Git files
+.git
+.gitignore
+
+# Python virtual environment
+.venv/
+venv/
+
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Docker specific files (if they are not meant to be part of the app code)
+# Dockerfile
+# docker-compose.yml
+# Makefile
+
+# Output directory (if you generate locally and don't want it in image,
+# but it's better to mount this as a volume)
+output/
+
+# IDE specific
+.idea/
+.vscode/

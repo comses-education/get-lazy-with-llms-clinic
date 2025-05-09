@@ -15,7 +15,7 @@ Throughout this repository we will use emojis in document titles:
 2. `practice/`: walkthroughs for solving tasks with LLMs. Jump to an [overview of examples](./practice/README.md) or straight to the individual walkthroughs:
     - [example 1: explain a concept from Earth Surface Modelling](./practice/01_explain_concept/README.md)
     - [example 2: generate a model skeleton](./practice/02_generate_landlab_model/README.md) that uses the [landlab framework](https://landlab.csdms.io/)
-    - example 3: containerize an existing Earth Surface Modeling Application (from example 2)
+    - [example 3: containerize an existing Earth Surface Modeling Application (from example 2)](./practice/03_containarize_landlab_model/README.md)
     - example 4: create a python CLI tool to convert contents of a directory into a single text file for LLMs
     - example 5: create a python CLI tool to help you build better prompts: promptbuilder tool
 3. `tools/`: a couple of tools generated with LLMs as part of our [example walktrhoughs](./practice/README.md)
