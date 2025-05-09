@@ -1,0 +1,17 @@
+# .diringest
+default:
+  format: markdown
+  max_size: 50  # Small max size in KB
+  # No default ignore true means default ignores ARE active
+  # follow_symlinks: false (default)
+  # ignore_errors: false (default)
+  clipboard: false # Override default clipboard behavior
+  verbose: 1 # -v equivalent
+  
+  exclude:
+    #- "*.md"       # Exclude all markdown files
+    #- "script.py"
+  
+  # Example of include, though if used, only these would be processed
+  # include: 
+  #  - "file1.txt" 

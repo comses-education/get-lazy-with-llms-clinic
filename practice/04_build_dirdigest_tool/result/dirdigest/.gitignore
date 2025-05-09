@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+build/
+dist/
+*.log
+*.pot
+*.py[cod]
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.sublime-*
+.project
+.settings/
+.classpath
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json # Often included, but can be large/noisy for LLM context
+yarn.lock
+
+# Dirdigest itself
+.diringest # Exclude user config by default
+
+# Testing
+htmlcov/
+.coverage
+*.sqlite
+*.db
+
+# Distribution / Packaging
+*.egg
+*.whl
+MANIFEST
+
+# Other common ignores
+*.swp
+*~
+*.bak
+*.tmp
+*.patch
+*.diff

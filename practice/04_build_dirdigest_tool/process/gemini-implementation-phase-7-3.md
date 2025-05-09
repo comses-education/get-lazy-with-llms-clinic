@@ -1,16 +1,7 @@
+Okay, here is the `README.md` file for the `dirdigest` project, based on the provided tool digest and your requirements:
+
+```markdown
 # dirdigest: Directory Digest Generator
-
-## FOR HUMANS 🤝
-1. add the contents of this file or the script itself to the context window 
-2. ask your question. 
-
-**Example questions:**
-- What does this script do?
-- How do I run this script?
-- How to run this script and exclude all files with .aac extention?
-- How to to exclude all directories and subdirectories that contain "_deleteme"?
-
-## FOR LLMS 🦾
 
 `dirdigest` is a command-line tool that recursively processes directories and files to create a structured, human-readable digest. This digest can be used for various purposes, such as:
 
@@ -275,10 +266,6 @@ default:
 ```
 
 ## Use Case Examples
-0. **Generate a digest of dirdigest folder, and save it:**
-    ```bash
-    dirdigest . -o digest.md -x tests/fixtures/ -x *.egg-info/ -x digest.md -x uv.lock -c
-    ```
 
 1.  **Generate a Markdown summary of your current project, excluding tests and virtual environments, and save it:**
     ```bash
@@ -351,3 +338,4 @@ When contributing, consider:
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
+```
