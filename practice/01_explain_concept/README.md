@@ -196,6 +196,18 @@ The table below organizes the flow of documents across both the **meta\_prompt**
 |              |                                                                                                          | [gemini\_tailored\_performing\_prompt.md](./performing_prompt/tailored/gemini_tailored_performing_prompt.md)          | [gemini\_tailored\_context\_summaries\_response.md](./responses/performing_prompt_responses/tailored/gemini_tailored_context_summaries_response.md)          |
 |              |                                                                                                          | [pplx\_tailored\_performing\_prompt.md](./performing_prompt/tailored/pplx_tailored_performing_prompt.md)              | [pplx\_tailored\_context\_summaries\_response.md](./responses/performing_prompt_responses/tailored/pplx_tailored_context_summaries_response.md)              |
 
+## Results:
+Here are the performing prompts responses (from above):
+
+Simple context responses:
+- [chatgpt_4o_simple_response.md](./responses/performing_prompt_responses/simple/chatgpt_4o_simple_response.md)
+- [gemini_simple_response.md](./responses/performing_prompt_responses/simple/gemini_simple_response.md)
+- [pplx_simple_response.md](./responses/performing_prompt_responses/simple/pplx_simple_response.md)
+
+Tailored context summaries responses:
+- [chatgpt_4o_tailored_context_summaries_response.md](./responses/performing_prompt_responses/tailored/chatgpt_4o_tailored_context_summaries_response.md)
+- [gemini_tailored_context_summaries_response.md](./responses/performing_prompt_responses/tailored/gemini_tailored_context_summaries_response.md)
+- [pplx_tailored_context_summaries_response.md](./responses/performing_prompt_responses/tailored/pplx_tailored_context_summaries_response.md)
 
 ## So, was it worth it? (Evaluation of Responses)
 Now let's compare whether the effort of going through the tailored summarization process was worth it. We can compare the responses manually, or (again) ask LLM to do this for us:

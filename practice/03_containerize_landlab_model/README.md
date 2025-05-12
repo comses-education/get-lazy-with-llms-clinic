@@ -1,4 +1,4 @@
-# Containerize the Overland Flow Model
+# Containerize the Overland Flow Model 🤝
 
 In the previous example [Generate Landlab Overland Flow Model](./../02_generate_landlab_model/README.md) we used some relevant context to generated a simple model that uses the [landlab](https://github.com/landlab/landlab/) library with a single prompt:
 ```
@@ -33,7 +33,7 @@ If you are familiar with docker, please, skip this section (and forget that it's
         CONTEXT: <DOCKERIZATION_BEST_PRACTICES>
     ```
 
-Here is the [Dockerization Guide](./result/Dockerization%20Guide.md)
+Here is the [Dockerization Guide](./process/Dockerization%20Guide.md)
 
 Next, we'll follow the dockerization guide:
 1. Create all new files: Makefile, Dockerfile, docker-compose.yml
@@ -565,3 +565,6 @@ This seems reasonable. After rerun `make build` and `make run` we can see the ex
 ![final_topography](./result/dockerized-landlab-model/landlab-overland-flow-demo/output_plots/final_topography.png)
 
 Thus concluding successful dockerization of our model.
+
+## Result
+[Dockerized Landlab Overland Flow Simulation](./result/dockerized-landlab-model/landlab-overland-flow-demo/README.md)

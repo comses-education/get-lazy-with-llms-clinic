@@ -10,7 +10,7 @@ Perplexity generates a simple working landlab overflow model in one go with foll
 ```
 
 ```
-    implement the script
+    use the PLAN and CONTEXT DOCS to implement the script
 ```
 ```
     create a README how to use this script with uv
@@ -329,7 +329,7 @@ Now, let's just merge the 3 Technical Docs into 1.
 
 Prepare the context docs:
 
-1. Convert jupyter notebooks to python: 
+1. Convert jupyter notebooks to python:
     - `jupyter nbconvert --to python overland_flow.ipynb`
     - `jupyter nbconvert --to python notebook_demo.ipynb`
 2. Copy paste them into the Meta Prompt below.
@@ -343,4 +343,5 @@ Prepare the context docs:
     CONTEXT: <INSERT ALL CONTEXT DOCS HERE>
 ```
 
-Here is the result: [Overland Flow Simulation](./result/gemini-one-shot-with-context/landlab-overland-flow-demo/README.md)
+## Result
+[Overland Flow Simulation](./result/gemini-one-shot-with-context/landlab-overland-flow-demo/README.md)

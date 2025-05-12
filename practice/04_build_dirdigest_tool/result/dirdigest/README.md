@@ -1,4 +1,4 @@
-# dirdigest: Directory Digest Generator
+# `dirdigest`: Directory Digest Generator 🦾👌
 
 ## FOR HUMANS 🤝
 1. add the contents of this file or the script itself to the context window 

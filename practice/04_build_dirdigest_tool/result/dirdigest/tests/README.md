@@ -1,4 +1,4 @@
-# Test Suite for `dirdigest`
+# Test Suite for `dirdigest` 🦾
 
 Welcome to the `dirdigest` test suite! This suite is designed to ensure the reliability, correctness, and robustness of the `dirdigest` command-line tool. We use `pytest` as our test runner and leverage various mock objects and fixtures to create isolated and repeatable test environments.
 

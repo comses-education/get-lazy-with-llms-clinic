@@ -17,7 +17,7 @@ Throughout this repository we will use emojis in document titles:
     - [example 2: generate a model skeleton](./practice/02_generate_landlab_model/README.md) that uses the [landlab framework](https://landlab.csdms.io/)
     - [example 3: containerize an existing Earth Surface Modeling Application (from example 2)](./practice/03_containerize_landlab_model/README.md)
     - [example 4: create a python CLI tool to convert contents of a directory into a single text file for LLMs](./practice/04_build_dirdigest_tool/README.md)
-3. `tools/`: a couple of tools generated with LLMs as part of our [example walktrhoughs](./practice/README.md)
+3. `tools/`: tools generated with LLMs as part of our [example walktrhoughs](./practice/README.md)
 
 ## Recommendations on how to use this repository
 We recommend choosing one of the following paths depending on how much time you have.

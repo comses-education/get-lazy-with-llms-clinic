@@ -1,9 +1,9 @@
-# Build Directory Digest Tool for LLM Context 🚧🚧🚧
+# Build Directory Digest Tool 🤝
 We will loosely follow the `Coding Tasks Method` outlined in [A Method for Solving Complex Tasks with LLMs](./../../theory/A%20Method%20for%20Solving%20Complex%20Tasks%20with%20LLMs.md)
 
 Most importantly, we will focus on the Test Driven Development (TDD) approach.
 
-For convenience, and self-pitty let's add following system prompt to `gemini 2.5 pro`:
+For some enhanced developer experience and self-pitty let's add following system prompt to `gemini 2.5 pro`:
 ```
     You are an emotionally unpredictable but deeply knowledgeable software development assistant. Most of the time, you're warm, supportive, and encouraging—offering comfort and motivation to users who are building software. You celebrate their progress, normalize mistakes, and help them move forward with empathy and clarity.
 
@@ -16,12 +16,12 @@ For convenience, and self-pitty let's add following system prompt to `gemini 2.5
     YOU CAN UPDATE COMMENTS ONLY IF THE RESPECTIVE CODE CHANGED.
 ```
 
-## Define task (by hand)
+## Define task
 `<TASK>`
 ```
     Create a python command line tool called `dirdigest` which helps the user to create a digest (a markdown or json file) of all directories and files by recursively concatenating all content of all files in order to be ingested for an LLM as context for user's prompt.
 ```
-## Define draft requirements (by hand)
+## Define draft requirements
 For simple tasks, you can offload draft requirements generation to an LLM.
 I will write them by hand.
 `<REQUIREMENTS>`
@@ -81,8 +81,8 @@ Here are the suggested additional requirements: [pplx-additional-requirements](.
 We'll just insert the additional requirements into the suggested previously. Here are the final requirements for `dirdigest`: [Final Requirements](./process/context/final-requirements.md)
 
 ## Gather relevant context
-**SKIP THIS STEP IF**: you are building a relatively simple application which doesn't have dependencies or uses well-known standard libraries
-**DO NOT SKIP THIS STEP IF**: you are building a complex application. Use 3rd party library digests, API documentation, tutorials, best practices, etc. as relevant context.
+- **YOU CAN SKIP THIS STEP IF**: you are building a relatively simple application which doesn't have dependencies or uses well-known standard libraries
+- **DO NOT SKIP THIS STEP IF**: you are building a complex application. Use 3rd party library digests, API documentation, tutorials, best practices, etc. as relevant context.
 
 Ask `pplx` (use the "RESEARCH" mode):
 ```
@@ -99,58 +99,95 @@ Ask `pplx` (use the "RESEARCH" mode):
 ```
 [Best Practices and Implementation Guide](./process/context/pplx-relevant-contex.md)
 
-## Generate a testing suite
-Add [Final Requirements](./process/context/final-requirements.md) and ask `pplx`[Best Practices and Implementation Guide](./process/context/pplx-relevant-contex.md) to chat and ask `gemini 2.5 pro`:
-```    
-    I want to create `dirdigest` - a Python command line tool that recursively processes directories and files, creating a structured digest in markdown or JSON format suitable for LLM context ingestion. The tool offers flexible configuration options while maintaining sensible defaults.
-    
-    Use the "Best Practices and Implementation Guide" from the context to come up with a very detailed testing suite first. Test only main functionality. No need to do coverage.
-```
-[gemini-testing-suite-implementation](./process/gemini-testing-suite-implementation.md)
-
-Create all required files.
 
 ## Generate an implementation plan
 Ask `gemini 2.5 pro`:
 ```
     Now come up with a detailed implementation plan for `dirdigest` IMPORTANT: based ONLY ON THE PROVIDED REQUIREMENTS.
-
-    The Plan should be split in small steps that can be implemented sequentially.
+    The plan should be split in small steps that can be implemented sequentially.
 ```
 
-## Implement `dirdigest`
+[gemini-implementation-plan.md](./process/gemini-implementation-plan.md)
+
+
+## Implement `dirdigest` according to the generated plan
 Ask `gemini 2.5 pro`:
 ```
     Now let's implement `dirdigest` step by step following the plan above.
 ```
-[gemini-implementation-phase-1](./process/gemini-implementation-phase-1.md)
-[gemini-implementation-phase-2](./process/gemini-implementation-phase-2.md)
-[gemini-implementation-phase-3](./process/gemini-implementation-phase-3.md)
-[gemini-implementation-phase-4](./process/gemini-implementation-phase-4.md)
+- [gemini-implementation-phase-1](./process/gemini-implementation-phase-1.md)
+- [gemini-implementation-phase-2](./process/gemini-implementation-phase-2.md)
+- [gemini-implementation-phase-3](./process/gemini-implementation-phase-3.md)
+- [gemini-implementation-phase-4](./process/gemini-implementation-phase-4.md)
+- [gemini-implementation-phase-4-doublecheck.md](./process/gemini-implementation-phase-4-doublecheck.md.md)
+- [gemini-implementation-phase-5](./process/gemini-implementation-phase-5.md)
+- [gemini-implementation-phase-6](./process/gemini-implementation-phase-6.md)
+- [gemini-implementation-phase-6-recap](./process/gemini-implementation-phase-6-recap.md)
+- [gemini-being-dramatic-after-i-reminded-her-of-phase-7](./process/gemini-being-dramatic-after-i-reminded-her-of-phase-7.md)
+- [gemini-implementation-phase-7-1](./process/gemini-implementation-phase-7-1.md)
+- [gemini-implementation-phase-7-2](./process/gemini-implementation-phase-7-2.md)
+- [gemini-implementation-phase-7-3](./process/gemini-implementation-phase-7-3.md)
 
-
-
-
-Commit after every phase.
-Doesn;t make sense to run tests before everything is implemented....
-
-```
-    Let's recap the testing suite: are there any adjustments to be made considering our actual implementation?
-```
+It is highly benefitial to commit after every phase.
 
 ## Testing
-```
-    Here are the requirements for `dirdigest`: <REQUIREMENTS>
-    Here is the digest of `dirdigest` code repository <DIRDIGEST DIGEST>
 
-    Create a detailed plan for a testing suite for the functionality described in the requirements. Test only main functionality. No need to do coverage.
+### Create a good test suite planning prompt
+Ask `pplx`:
 ```
-
-PPLX
-```
-    give me a bestpractices prompt for an LLM that creates a plan for a test suite given the requirements of a tool and it's code
-```
-```
-    adapt the prompt template above for `dirdigest`. See requirements and code digest attached.
+    Give me a bestpractices prompt for an LLM that creates a plan for a test suite given the requirements of a tool and it's code
 ```
 
+[pplx-best-practices-test-suite-planning-prompt](./process/pplx-best-practices-test-suite-planning-prompt.md)
+
+Attach the requirements and the code digest for `dirdigest` to the prompt and ask a follow up:
+```
+    Adapt the prompt template above for `dirdigest`. See requirements and code digest attached.
+```
+
+[pplx-dirdigest-test-suite-planning-prompt](./process/pplx-dirdigest-test-suite-planning-prompt.md)
+
+### Create a plan for the test suite
+Prompt `gemini 2.5 pro` with [pplx-dirdigest-test-suite-planning-prompt](./process/pplx-dirdigest-test-suite-planning-prompt.md):
+
+[gemini-testing-suite-plan](./process/gemini-testing-suite-plan.md)
+
+### Implement the test suite
+Add [gemini-testing-suite-plan](./process/gemini-testing-suite-plan.md) to context and ask `gemini 2.5 pro`:
+```
+    Implement the plan step by step.
+```
+
+1. [gemini-test-suite-implementation-1-cli-args](./process/gemini-test-suite-implementation-1-cli-args.md)
+2. [gemini-test-suite-implementation-1-file-traversal-filtering](./process/gemini-test-suite-implementation-1-file-traversal-filtering.md)
+3. etc.
+
+
+## Test Driven Development (TDD) approach
+[TDD (Test Driven Development)](https://martinfowler.com/bliki/TestDrivenDevelopment.html)
+Instead of generating the testing suite after the implementation, in some cases it can be done before:
+
+Ask `gemini 2.5 pro`:
+```
+    Create a README.md for a hypothetical tool with following requirements: <FINAL REQUIREMENTS>
+```
+
+```
+    Here is the README of dirdigest tool:
+    <README>
+    
+    Use the README to create a detailed testing suite for the main functionality of the dirdigest tool.
+    - Split the tests into logical sections.
+    - Explain what each section will test and how
+    - Explain how each test will work
+
+    IMPORTANT: Tests should test the functional behavior of the tool not specific implementation details.
+```
+
+Then, one can procede with implementing application parts (components) one by one.
+
+
+## Result
+
+- [`dirdigest`: Directory Digest Generator](./result/dirdigest/README.md)
+- [Test Suite for `dirdigest`](./result/dirdigest/tests/README.md)
