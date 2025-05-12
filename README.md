@@ -165,4 +165,5 @@ Let's call the prompt that generates a better prompt for your task - the `META_P
 ## Further Learning
 - [LiveBench](https://livebench.ai/) - a benchmark for LLMs *"designed with test set contamination and objective evaluation in mind"*
 - [Curated educational content on LLMs](./theory/Curated%20LLM%20Resources.md)
+- [promptingguide.ai](https://www.promptingguide.ai)
 
