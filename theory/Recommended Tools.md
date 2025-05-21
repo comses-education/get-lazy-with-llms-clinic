@@ -42,6 +42,7 @@
     - https://cloud.llamaindex.ai/ (free tier, signup)
     - https://www.firecrawl.dev/ (free tier, signup)
     - Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper (python library): https://github.com/unclecode/crawl4ai
+    - Docling (convert PDF, DOCX, XLSX, HTML, images, and more): https://github.com/docling-project/docling
     - Marker (supports complex layouts, tables, formulas) (python library): https://github.com/VikParuchuri/marker
 - use https://gitdiagram.com to draw a component diagram of any github repo. For example landlab: https://gitdiagram.com/landlab/landlab. Use this tool to generate mermaid diagrams that can be added to the context to improve understanding of large codebases.
 
