@@ -11,3 +11,5 @@
    1. https://www.youtube.com/@leonvanzyl
 5. Deep Dive AI Coding
    1. https://www.youtube.com/@deployingai
+6. Agents
+   1. https://github.com/humanlayer/12-factor-agents
